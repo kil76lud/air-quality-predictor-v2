@@ -1,0 +1,26 @@
+# Configuración central del proyecto. Cambiar de ciudad = editar solo este bloque.
+city:
+  name: Puno
+  latitude: -15.8375
+  longitude: -70.02167
+  timezone: America/Lima        # hora local sin DST: la feature "hour" es hora local
+
+# Catálogo para el selector multiciudad (la ciudad de arriba es la de por defecto).
+# Cada ciudad tiene su propio dataset, champion y reportes. timezone por defecto: America/Lima.
+cities:
+  - {name: Lima, latitude: -12.0464, longitude: -77.0428}
+  - {name: Arequipa, latitude: -16.4090, longitude: -71.5375}
+  - {name: Huancayo, latitude: -12.0651, longitude: -75.2049}
+  - {name: Cusco, latitude: -13.5320, longitude: -71.9675}
+  - {name: Pucallpa, latitude: -8.3791, longitude: -74.5539}
+
+horizon_hours: 6                # predecimos la categoría AQI en t+6
+history_months: 12              # ventana del bootstrap histórico
+
+training:
+  n_trials: 30                  # trials de Optuna
+  n_splits: 4                   # folds de TimeSeriesSplit
+  test_fraction: 0.2            # último 20 % (cronológico) = conjunto de prueba
+  seed: 42
+  promotion_min_delta: 0.005    # mejora mínima de F1 macro para promover un challenger
+  quality_gate_f1_macro: 0.35   # mínimo absoluto exigido en CI al champion

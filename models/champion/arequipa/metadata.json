@@ -1,0 +1,110 @@
+{
+  "model_name": "aqi-xgboost-champion",
+  "version": "1",
+  "alias": "champion",
+  "trained_at": "2026-10-21T11:22:14.450923+00:00",
+  "metrics": {
+    "accuracy": 0.9467658843732112,
+    "f1_macro": 0.8248368002062584,
+    "f1_per_class": {
+      "Good": 0.8666666666666667,
+      "Moderate": 0.9711090400745573,
+      "Unhealthy for Sensitive Groups": 0.636734693877551,
+      "Unhealthy": 0.0,
+      "Very Unhealthy": 0.0
+    },
+    "support": {
+      "Good": 16,
+      "Moderate": 1630,
+      "Unhealthy for Sensitive Groups": 101,
+      "Unhealthy": 0,
+      "Very Unhealthy": 0
+    }
+  },
+  "horizon_hours": 6,
+  "classes": [
+    "Good",
+    "Moderate",
+    "Unhealthy for Sensitive Groups",
+    "Unhealthy",
+    "Very Unhealthy"
+  ],
+  "data_range": {
+    "start": "2025-10-21T00:00:00-05:00",
+    "end": "2026-10-21T06:00:00-05:00"
+  },
+  "test_range": {
+    "start": "2026-08-09T06:00:00-05:00",
+    "end": "2026-10-21T00:00:00-05:00"
+  },
+  "n_rows": 8767,
+  "feature_names": [
+    "pm2_5",
+    "pm10",
+    "co",
+    "no2",
+    "so2",
+    "o3",
+    "temperature",
+    "humidity",
+    "wind_speed",
+    "pressure",
+    "hour",
+    "day_of_week",
+    "pm2_5_lag1h",
+    "pm2_5_lag3h",
+    "pm2_5_lag6h",
+    "pm2_5_lag24h",
+    "pm10_lag1h",
+    "pm10_lag3h",
+    "pm10_lag6h",
+    "pm10_lag24h",
+    "co_lag1h",
+    "co_lag3h",
+    "co_lag6h",
+    "co_lag24h",
+    "no2_lag1h",
+    "no2_lag3h",
+    "no2_lag6h",
+    "no2_lag24h",
+    "so2_lag1h",
+    "so2_lag3h",
+    "so2_lag6h",
+    "so2_lag24h",
+    "o3_lag1h",
+    "o3_lag3h",
+    "o3_lag6h",
+    "o3_lag24h",
+    "pm2_5_roll6h",
+    "pm2_5_roll24h",
+    "pm10_roll6h",
+    "pm10_roll24h",
+    "co_roll6h",
+    "co_roll24h",
+    "no2_roll6h",
+    "no2_roll24h",
+    "so2_roll6h",
+    "so2_roll24h",
+    "o3_roll6h",
+    "o3_roll24h"
+  ],
+  "classes_trained": [
+    "Good",
+    "Moderate",
+    "Unhealthy for Sensitive Groups"
+  ],
+  "params": {
+    "n_estimators": 400,
+    "max_depth": 4,
+    "learning_rate": 0.17380883567806915,
+    "subsample": 0.6026268487517209,
+    "colsample_bytree": 0.9851573881769597,
+    "min_child_weight": 8,
+    "reg_lambda": 9.7038546568188,
+    "gamma": 1.4741882346557034
+  },
+  "seed": 42,
+  "mlflow_run_id": "3332d4a6103d4255ba66a848b465be92",
+  "data_source": "open-meteo",
+  "city": "Arequipa"
+}

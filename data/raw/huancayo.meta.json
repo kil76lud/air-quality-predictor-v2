@@ -1,0 +1,10 @@
+{
+  "source": "open-meteo",
+  "city": "Huancayo",
+  "latitude": -12.0651,
+  "longitude": -75.2049,
+  "downloaded_at": "2026-10-21T11:18:13.268026+00:00",
+  "rows": 8767,
+  "start": "2025-10-21T00:00:00",
+  "end": "2026-10-21T06:00:00"
+}

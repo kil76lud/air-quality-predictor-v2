@@ -1,0 +1,10 @@
+{
+  "source": "open-meteo",
+  "city": "Lima",
+  "latitude": -12.0464,
+  "longitude": -77.0428,
+  "downloaded_at": "2026-10-21T11:18:05.660882+00:00",
+  "rows": 8767,
+  "start": "2025-10-21T00:00:00",
+  "end": "2026-10-21T06:00:00"
+}

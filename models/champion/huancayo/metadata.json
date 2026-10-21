@@ -1,0 +1,109 @@
+{
+  "model_name": "aqi-xgboost-champion",
+  "version": "1",
+  "alias": "champion",
+  "trained_at": "2026-10-21T11:23:12.294624+00:00",
+  "metrics": {
+    "accuracy": 0.9656554092730395,
+    "f1_macro": 0.9389866261851101,
+    "f1_per_class": {
+      "Good": 0.9793246037215714,
+      "Moderate": 0.8986486486486487,
+      "Unhealthy for Sensitive Groups": 0.0,
+      "Unhealthy": 0.0,
+      "Very Unhealthy": 0.0
+    },
+    "support": {
+      "Good": 1453,
+      "Moderate": 294,
+      "Unhealthy for Sensitive Groups": 0,
+      "Unhealthy": 0,
+      "Very Unhealthy": 0
+    }
+  },
+  "horizon_hours": 6,
+  "classes": [
+    "Good",
+    "Moderate",
+    "Unhealthy for Sensitive Groups",
+    "Unhealthy",
+    "Very Unhealthy"
+  ],
+  "data_range": {
+    "start": "2025-10-21T00:00:00-05:00",
+    "end": "2026-10-21T06:00:00-05:00"
+  },
+  "test_range": {
+    "start": "2026-08-09T06:00:00-05:00",
+    "end": "2026-10-21T00:00:00-05:00"
+  },
+  "n_rows": 8767,
+  "feature_names": [
+    "pm2_5",
+    "pm10",
+    "co",
+    "no2",
+    "so2",
+    "o3",
+    "temperature",
+    "humidity",
+    "wind_speed",
+    "pressure",
+    "hour",
+    "day_of_week",
+    "pm2_5_lag1h",
+    "pm2_5_lag3h",
+    "pm2_5_lag6h",
+    "pm2_5_lag24h",
+    "pm10_lag1h",
+    "pm10_lag3h",
+    "pm10_lag6h",
+    "pm10_lag24h",
+    "co_lag1h",
+    "co_lag3h",
+    "co_lag6h",
+    "co_lag24h",
+    "no2_lag1h",
+    "no2_lag3h",
+    "no2_lag6h",
+    "no2_lag24h",
+    "so2_lag1h",
+    "so2_lag3h",
+    "so2_lag6h",
+    "so2_lag24h",
+    "o3_lag1h",
+    "o3_lag3h",
+    "o3_lag6h",
+    "o3_lag24h",
+    "pm2_5_roll6h",
+    "pm2_5_roll24h",
+    "pm10_roll6h",
+    "pm10_roll24h",
+    "co_roll6h",
+    "co_roll24h",
+    "no2_roll6h",
+    "no2_roll24h",
+    "so2_roll6h",
+    "so2_roll24h",
+    "o3_roll6h",
+    "o3_roll24h"
+  ],
+  "classes_trained": [
+    "Good",
+    "Moderate"
+  ],
+  "params": {
+    "n_estimators": 200,
+    "max_depth": 4,
+    "learning_rate": 0.10479900891570752,
+    "subsample": 0.7709169740602239,
+    "colsample_bytree": 0.8684383939997775,
+    "min_child_weight": 6,
+    "reg_lambda": 0.5261001220107537,
+    "gamma": 1.5929573778842092
+  },
+  "seed": 42,
+  "mlflow_run_id": "38ab184a373e4642bf69e3074688f9d3",
+  "data_source": "open-meteo",
+  "city": "Huancayo"
+}

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puno Air · Air quality category predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17123a;--mute:#645e8c;--line:#e4dff7;--a:#5b4bff;--b:#ff3d8b;--t:#12c2b0;--cat:#5b4bff;
+--serif:'Fraunces',Georgia,serif;--sans:'Outfit',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{font:400 1rem/1.55 var(--sans);color:var(--ink);background:#f2efff;min-height:100vh;overflow-x:hidden}
+.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.55;z-index:-1;pointer-events:none}
+.b1{width:46vw;height:46vw;left:-12vw;top:-14vw;background:var(--a)}
+.b2{width:38vw;height:38vw;right:-10vw;top:12vh;background:var(--b);opacity:.4}
+.b3{width:42vw;height:42vw;left:30vw;bottom:-22vw;background:var(--t);opacity:.45}
+.wrap{max-width:1080px;margin:0 auto;padding:clamp(1rem,3vw,2rem) clamp(1rem,3vw,1.5rem) 3rem}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.75rem}
+.mark{width:2.6rem;height:2.6rem;border-radius:50% 50% 50% 12%;background:conic-gradient(from 200deg,var(--a),var(--b),#ffb020,var(--t),var(--a));box-shadow:0 10px 24px -8px rgba(91,75,255,.7)}
+.brand b{font:700 1.45rem/1 var(--serif);letter-spacing:-.01em}
+.brand small{display:block;font:400 .8rem var(--sans);color:var(--mute);margin-top:.2rem}
+.pill{font:600 .78rem var(--mono);padding:.45rem .85rem;border-radius:99px;background:rgba(255,255,255,.7);border:1px solid var(--line);display:flex;align-items:center;gap:.5rem}
+.pill i{width:.55rem;height:.55rem;border-radius:50%;background:#bbb}
+.pill.ok i{background:#12c28b;box-shadow:0 0 0 4px rgba(18,194,139,.22)}
+.pill.bad i{background:#f0386b;box-shadow:0 0 0 4px rgba(240,56,107,.22)}
+h1{font:700 clamp(2rem,6vw,3.6rem)/1.04 var(--serif);letter-spacing:-.025em;margin:clamp(1.6rem,5vw,3rem) 0 .8rem;max-width:15ch}
+h1 em{font-style:italic;font-weight:500;background:linear-gradient(100deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mute);max-width:56ch;font-size:1.05rem}
+nav{position:relative;display:inline-flex;gap:.25rem;margin:2rem 0 1.4rem;padding:.35rem;border-radius:99px;background:rgba(255,255,255,.65);border:1px solid var(--line);backdrop-filter:blur(8px);max-width:100%;overflow-x:auto}
+nav button{position:relative;z-index:1;border:0;background:none;font:500 .98rem var(--sans);color:var(--mute);padding:.7rem 1.3rem;border-radius:99px;cursor:pointer;white-space:nowrap;transition:color .25s}
+nav button[aria-selected=true]{color:#fff}
+nav button:not([aria-selected=true]):hover{color:var(--ink)}
+.ind{position:absolute;top:.35rem;bottom:.35rem;left:0;width:0;border-radius:99px;background:linear-gradient(110deg,var(--a),var(--b));box-shadow:0 10px 22px -8px rgba(255,61,139,.7);transition:left .35s cubic-bezier(.5,1.3,.5,1),width .35s cubic-bezier(.5,1.3,.5,1)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.panel{display:none}
+.panel.on{display:block;animation:in .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+.grid{display:grid;gap:1.25rem;grid-template-columns:1.25fr 1fr;align-items:start}
+.card{position:relative;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.9);border-radius:26px;padding:1.7rem 1.6rem 1.6rem;box-shadow:0 34px 60px -28px rgba(40,20,120,.45),0 8px 18px -8px rgba(40,20,120,.15);overflow:hidden}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--cat),color-mix(in srgb,var(--cat) 40%,var(--b)))}
+.card h3{font:700 1.2rem var(--serif);margin-bottom:1rem}
+.muted{color:var(--mute);font-size:.92rem}
+.mono{font-family:var(--mono)}
+.cat{font:700 clamp(2rem,6vw,3.3rem)/1.05 var(--serif);letter-spacing:-.02em;margin:.35rem 0 .3rem;color:var(--cat)}
+.en{font:400 .8rem var(--mono);color:var(--mute)}
+.tip{margin:1rem 0 1.4rem;padding:.85rem 1rem;border-radius:16px;background:color-mix(in srgb,var(--cat) 12%,#fff);border:1px solid color-mix(in srgb,var(--cat) 30%,#fff)}
+.bar{display:grid;grid-template-columns:minmax(7rem,11rem) 1fr 3.6rem;gap:.7rem;align-items:center;margin:.55rem 0;font-size:.86rem}
+.trk{height:.7rem;border-radius:9px;background:#ece8fb;overflow:hidden}
+.trk i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 60%,#fff));transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.bar span:last-child{font:600 .82rem var(--mono);text-align:right}
+.chip{display:inline-block;padding:.35rem .8rem;border-radius:99px;font:600 .85rem var(--sans);color:#fff;background:var(--cat)}
+.rd{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:1.1rem}
+.rd div{padding:.7rem .85rem;border-radius:14px;background:#f6f3ff;border:1px solid var(--line)}
+.rd small{display:block;color:var(--mute);font-size:.75rem}
+.rd b{font:600 1rem var(--mono)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.btn{border:0;cursor:pointer;font:600 1.05rem var(--sans);color:#fff;padding:1rem 1.7rem;border-radius:18px;background:linear-gradient(110deg,var(--a),var(--b));box-shadow:0 16px 28px -12px rgba(255,61,139,.75);transition:transform .2s,box-shadow .2s,filter .2s}
+.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 22px 34px -12px rgba(255,61,139,.85);filter:saturate(1.15)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn[disabled]{opacity:.6;cursor:wait;transform:none}
+.btn.alt{background:#fff;color:var(--a);box-shadow:0 8px 18px -10px rgba(40,20,120,.5);border:1.5px solid var(--line);padding:.8rem 1.3rem;font-size:.95rem}
+.form{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+label{display:block;font:500 .88rem var(--sans);color:var(--mute)}
+label span{font:400 .75rem var(--mono);margin-left:.3rem;color:#9b95c0}
+input,select{width:100%;margin-top:.35rem;font:500 1.1rem var(--mono);color:var(--ink);padding:.9rem 1rem;border-radius:16px;border:1.5px solid var(--line);background:#fbfaff;transition:border-color .2s,box-shadow .2s,transform .2s}
+input:hover,select:hover{border-color:#b9b0f5;transform:translateY(-1px)}
+input:focus,select:focus{border-color:var(--a);box-shadow:0 0 0 4px rgba(91,75,255,.16)}
+.err{margin-top:1rem;padding:.9rem 1.1rem;border-radius:16px;background:#fff0f4;border:1px solid #ffc2d3;color:#b0123f;font:500 .9rem var(--mono)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.4rem}
+.big{font:700 2.8rem/1 var(--serif);background:linear-gradient(100deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.facts{display:grid;gap:.1rem}
+.facts div{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+.facts div:last-child{border:0}
+.facts b{font:600 .88rem var(--mono);text-align:right;word-break:break-word}
+.load{color:var(--mute);font:400 .9rem var(--mono);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+footer{margin-top:2.5rem;color:var(--mute);font-size:.82rem;max-width:70ch}
+.tools{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap}
+.citysel{display:flex;align-items:center;gap:.5rem}
+.citysel span{margin:0;font:500 .85rem var(--sans);color:var(--mute)}
+.citysel select{width:auto;max-width:15rem;margin:0;padding:.55rem 2.2rem .55rem 1rem;border-radius:99px;font:600 .85rem var(--mono);background-color:rgba(255,255,255,.8)}
+.lang{display:flex;padding:.25rem;border-radius:99px;background:rgba(255,255,255,.7);border:1px solid var(--line)}
+.lang button{border:0;background:none;font:600 .78rem var(--mono);padding:.4rem .85rem;border-radius:99px;cursor:pointer;color:var(--mute);transition:color .25s,background .25s,transform .2s}
+.lang button:hover{color:var(--ink);transform:translateY(-1px)}
+.lang button[aria-pressed=true],.lang button[aria-pressed=true]:hover{background:linear-gradient(110deg,var(--a),var(--b));color:#fff;box-shadow:0 6px 14px -6px rgba(255,61,139,.8)}
+label i{font-style:normal}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.form{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.form{grid-template-columns:1fr}.bar{grid-template-columns:1fr 3.4rem}.bar .trk{grid-column:1/-1;order:3}.card{padding:1.4rem 1.2rem}nav button{padding:.7rem 1rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="mark"></div><div><b data-i="brand"></b><small data-i="sub"></small></div></div>
+  <div class="tools">
+    <label class="citysel"><span data-i="city"></span><select id="city"></select></label>
+    <div class="lang" role="group" aria-label="Language"><button type="button" data-l="en" aria-pressed="true">EN</button><button type="button" data-l="es" aria-pressed="false">ES</button></div>
+    <div class="pill" id="health"><i></i><span data-i="hWait"></span></div>
+  </div>
+</header>
+<h1 data-i="h1"></h1>
+<p class="lead" data-i="lead"></p>
+
+<nav role="tablist" aria-label="Sections">
+  <div class="ind" id="ind"></div>
+  <button role="tab" id="t-live" aria-controls="p-live" aria-selected="true" data-p="live" data-i="t_live"></button>
+  <button role="tab" id="t-man" aria-controls="p-man" aria-selected="false" data-p="man" data-i="t_sim"></button>
+  <button role="tab" id="t-mod" aria-controls="p-mod" aria-selected="false" data-p="mod" data-i="t_mod"></button>
+</nav>
+
+<section class="panel on" id="p-live" role="tabpanel" aria-labelledby="t-live">
+  <div class="top"><span class="muted" id="live-when" data-i="whenDef"></span><button class="btn alt" id="refresh" data-i="refresh"></button></div>
+  <div class="grid" id="live"><div class="card"><p class="load" data-i="loadLive"></p></div></div>
+</section>
+
+<section class="panel" id="p-man" role="tabpanel" aria-labelledby="t-man">
+  <div class="grid">
+    <div class="card" style="--cat:#5b4bff">
+      <div class="top"><h3 style="margin:0" data-i="cur"></h3><button class="btn alt" id="fill" type="button" data-i="fill"></button></div>
+      <div class="form" id="form"></div>
+      <div style="margin-top:1.5rem"><button class="btn" id="go" type="button" data-i="go"></button></div>
+      <div class="err" id="m-err" hidden></div>
+    </div>
+    <div id="m-out"><div class="card" style="--cat:#12c2b0"><p class="muted" data-i="hint"></p></div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-mod" role="tabpanel" aria-labelledby="t-mod">
+  <div class="grid" id="model"><div class="card"><p class="load" data-i="loadMod"></p></div></div>
+</section>
+
+<footer data-i="foot"></footer>
+</div>
+
+<script>
+const D={
+en:{title:"Peru Air · Air quality category predictor",brand:"Peru Air",city:"City",soon:"model pending",sub:"AQI category predictor · MLOps",hWait:"connecting…",hOk:"API online",hBad:"API offline",
+h1:"{c}’s air, <em>six hours</em> ahead.",
+lead:"An XGBoost model reads current pollution and weather in {c} and forecasts which US AQI category the air will be in six hours from now.",
+t_live:"Live",t_sim:"Simulator",t_mod:"Model",refresh:"Refresh",whenDef:"Latest real data from Open-Meteo",obs:"Observed on",
+loadLive:"Fetching live data…",loadMod:"Loading model information…",cur:"Current state",fill:"Load live data",go:"Predict category",going:"Calculating…",
+hint:"Adjust the values and press <b>Predict</b>. Lags and rolling averages are filled with the current value, so this is an approximation.",
+fc:"Forecast for the next 6 hours",simRes:"Simulator result · t+6 h",now:"Right now",puno:"(Peru time, UTC−5)",liveErr:"Could not get live data",
+perf:"Test-set performance",acc:"Accuracy",f1:"F1 macro",cls:"Classes it distinguishes",spec:"Technical sheet",mName:"Model",mVer:"Version",mTr:"Trained",
+mHor:"Horizon",hrs:"hours",mRows:"Data rows",mFrom:"From",mTo:"To",modErr:"Model unavailable",mv:"model v",badNum:"Fill in every field with valid numbers.",
+f_temperature:"Temperature",f_humidity:"Humidity",f_wind_speed:"Wind",f_pressure:"Pressure",f_hour:"Local hour",f_day:"Day",
+days:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+foot:"Gridded reanalysis data (CAMS / Open-Meteo), not local sensors: it does not capture urban microclimates or point spikes. Any AQI above 200 is grouped under “Very unhealthy”.",
+c_Good:"Good",c_Moderate:"Moderate",c_Unhealthy_for_Sensitive_Groups:"Unhealthy for sensitive groups",c_Unhealthy:"Unhealthy",c_Very_Unhealthy:"Very unhealthy",
+tip_Good:"Clean air. Outdoor activity without restrictions.",tip_Moderate:"Acceptable. Unusually sensitive people may notice discomfort.",
+tip_Unhealthy_for_Sensitive_Groups:"Children, older adults and people with asthma should limit prolonged outdoor exertion.",
+tip_Unhealthy:"Everyone may feel effects. Avoid intense outdoor exercise.",tip_Very_Unhealthy:"Health alert. Stay indoors and avoid any outdoor exertion."},
+es:{title:"Aire Perú · Predictor de categoría de calidad del aire",brand:"Aire Perú",city:"Ciudad",soon:"modelo pendiente",sub:"Predictor de categoría AQI · MLOps",hWait:"conectando…",hOk:"API en línea",hBad:"API sin conexión",
+h1:"El aire de {c}, <em>seis horas</em> adelante.",
+lead:"Un modelo XGBoost lee la contaminación y el clima actuales en {c} y anticipa en qué categoría US AQI estará el aire dentro de seis horas.",
+t_live:"En vivo",t_sim:"Simulador",t_mod:"Modelo",refresh:"Actualizar",whenDef:"Datos reales más recientes de Open-Meteo",obs:"Observado el",
+loadLive:"Consultando datos en vivo…",loadMod:"Cargando información del modelo…",cur:"Estado actual",fill:"Cargar datos en vivo",go:"Predecir categoría",going:"Calculando…",
+hint:"Ajusta los valores y pulsa <b>Predecir</b>. Los rezagos y promedios móviles se rellenan con el valor actual, así que es una aproximación.",
+fc:"Pronóstico dentro de 6 horas",simRes:"Resultado del simulador · t+6 h",now:"Ahora mismo",puno:"(hora de Perú, UTC−5)",liveErr:"No pudimos obtener datos en vivo",
+perf:"Desempeño en el conjunto de prueba",acc:"Exactitud",f1:"F1 macro",cls:"Clases que distingue",spec:"Ficha técnica",mName:"Modelo",mVer:"Versión",mTr:"Entrenado",
+mHor:"Horizonte",hrs:"horas",mRows:"Filas de datos",mFrom:"Desde",mTo:"Hasta",modErr:"Modelo no disponible",mv:"modelo v",badNum:"Completa todos los campos con números válidos.",
+f_temperature:"Temperatura",f_humidity:"Humedad",f_wind_speed:"Viento",f_pressure:"Presión",f_hour:"Hora local",f_day:"Día",
+days:["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"],
+foot:"Datos de reanálisis por cuadrícula (CAMS / Open-Meteo), no de sensores locales: no captura microclimas urbanos ni picos puntuales. Todo AQI mayor a 200 se agrupa en «Muy dañina».",
+c_Good:"Buena",c_Moderate:"Moderada",c_Unhealthy_for_Sensitive_Groups:"Dañina para grupos sensibles",c_Unhealthy:"Dañina",c_Very_Unhealthy:"Muy dañina",
+tip_Good:"Aire limpio. Puedes hacer actividad al aire libre sin restricciones.",tip_Moderate:"Aceptable. Personas inusualmente sensibles podrían notar molestias.",
+tip_Unhealthy_for_Sensitive_Groups:"Niños, adultos mayores y personas con asma deberían reducir el esfuerzo prolongado al aire libre.",
+tip_Unhealthy:"Toda la población puede sentir efectos. Evita el ejercicio intenso en exteriores.",tip_Very_Unhealthy:"Alerta sanitaria. Permanece en interiores y evita cualquier esfuerzo al aire libre."}};
+let L="en";try{L=localStorage.getItem("aqiLang")||"en"}catch(e){}
+if(!D[L])L="en";
+const t=k=>D[L][k]??k;
+const COL={"Good":"#12c28b","Moderate":"#f2b200","Unhealthy for Sensitive Groups":"#ff7a2f","Unhealthy":"#f0386b","Very Unhealthy":"#8b3dff"};
+const cat=c=>{const k=c.replace(/ /g,"_");return[t("c_"+k),COL[c]||"#5b4bff",t("tip_"+k)]};
+const NAMES={pm2_5:"PM2.5",pm10:"PM10",co:"CO",no2:"NO₂",so2:"SO₂",o3:"O₃"};
+const FIELDS=[["pm2_5","µg/m³",0,1000,12],["pm10","µg/m³",0,2000,25],["co","µg/m³",0,50000,150],["no2","µg/m³",0,1000,8],["so2","µg/m³",0,2000,3],
+["o3","µg/m³",0,1000,60],["temperature","°C",-60,60,9],["humidity","%",0,100,55],["wind_speed","km/h",0,200,10],["pressure","hPa",300,1100,640]];
+const $=s=>document.querySelector(s);
+const S={live:null,model:null,pred:null};
+let CITY="",CITIES=[];try{CITY=localStorage.getItem("aqiCity")||""}catch(e){}
+const cq=()=>CITY?"?city="+encodeURIComponent(CITY):"";
+const cname=()=>(CITIES.find(c=>c.slug===CITY)||CITIES.find(c=>c.default)||{name:"Peru"}).name;
+async function api(p,o){const r=await fetch(p,o);let j={};try{j=await r.json()}catch(e){}
+  if(!r.ok)throw new Error(j.detail||("Error "+r.status));return j}
+const loc=()=>L==="es"?"es-PE":"en-US";
+const fmt=n=>Number(n).toLocaleString(loc(),{maximumFractionDigits:1});
+const when=s=>new Date(s).toLocaleString(loc(),{dateStyle:"medium",timeStyle:"short",timeZone:"America/Lima"});
+
+/* tabs */
+const tabs=[...document.querySelectorAll("[role=tab]")];
+const cur=()=>tabs.find(x=>x.getAttribute("aria-selected")==="true");
+function move(b){const i=$("#ind");i.style.left=b.offsetLeft+"px";i.style.width=b.offsetWidth+"px"}
+function show(b){tabs.forEach(x=>{const on=x===b;x.setAttribute("aria-selected",on);$("#p-"+x.dataset.p).classList.toggle("on",on)});move(b);
+  if(b.dataset.p==="mod"&&!S.model)loadModel()}
+tabs.forEach((b,i)=>{b.onclick=()=>show(b);
+  b.onkeydown=e=>{const k={ArrowRight:1,ArrowLeft:-1}[e.key];if(k){const n=tabs[(i+k+tabs.length)%tabs.length];n.focus();show(n)}}});
+addEventListener("resize",()=>move(cur()));
+
+/* tarjeta de predicción */
+function predCard(p,title){
+  const [name,col,tip]=cat(p.predicted_category);
+  const rows=Object.entries(p.probabilities).map(([k,v])=>{const [n,c]=cat(k);c;
+    return `<div class="bar" style="--c:${COL[k]}"><span>${n}</span><div class="trk"><i data-w="${(v*100).toFixed(1)}"></i></div><span>${(v*100).toFixed(1)}%</span></div>`}).join("");
+  return `<div class="card" style="--cat:${col}"><p class="muted">${t(title)}</p>
+  <h2 class="cat">${name}</h2><p class="en">${p.predicted_category} · ${t("mv")}${p.model_version}</p>
+  <p class="tip">${tip}</p>${rows}</div>`}
+function grow(root){requestAnimationFrame(()=>requestAnimationFrame(()=>root.querySelectorAll("[data-w]").forEach(e=>e.style.width=e.dataset.w+"%")))}
+const errCard=(k,m,c)=>`<div class="card" style="--cat:#f0386b"><h3>${t(k)}</h3><div class="err">${m}</div></div>`;
+
+/* en vivo */
+function renderLive(){const box=$("#live"),d=S.live;if(!d)return;
+  if(d.err){box.innerHTML=errCard("liveErr",d.err);return}
+  const [n,c]=cat(d.current_category),i=d.inputs;
+  const rd=FIELDS.map(f=>`<div><small>${NAMES[f[0]]||t("f_"+f[0])}</small><b>${fmt(i[f[0]])}</b> <small style="display:inline">${f[1]}</small></div>`).join("");
+  box.innerHTML=predCard(d.prediction,"fc")+`<div class="card" style="--cat:${c}"><h3>${t("now")}</h3>
+  <span class="chip">${n}</span><p class="muted" style="margin-top:.7rem">${t("obs")} <span class="mono">${when(d.observed_at)}</span> ${t("puno")}</p>
+  <div class="rd">${rd}</div></div>`;
+  const w=$("#live-when");w.removeAttribute("data-i");w.textContent=t("obs")+" "+when(d.observed_at);grow(box)}
+async function loadLive(){const btn=$("#refresh");btn.disabled=true;
+  try{S.live=await api("/latest"+cq())}catch(e){S.live={err:e.message}}
+  renderLive();btn.disabled=false}
+$("#refresh").onclick=loadLive;
+
+/* simulador */
+const now=new Date();
+$("#form").innerHTML=FIELDS.map(f=>`<label>${NAMES[f[0]]||`<i data-i="f_${f[0]}"></i>`}<span>${f[1]}</span><input type="number" inputmode="decimal" step="any" id="f-${f[0]}" min="${f[2]}" max="${f[3]}" value="${f[4]}"></label>`).join("")+
+`<label><i data-i="f_hour"></i><span>0–23</span><input type="number" id="f-hour" min="0" max="23" step="1" value="${now.getHours()}"></label>
+<label><i data-i="f_day"></i><select id="f-day"></select></label>`;
+function showPred(){if(S.pred){$("#m-out").innerHTML=predCard(S.pred,"simRes");grow($("#m-out"))}}
+$("#fill").onclick=async()=>{const b=$("#fill");b.disabled=true;try{const d=await api("/latest"+cq());
+  for(const [k,v] of Object.entries(d.inputs))$("#f-"+k).value=Number.isInteger(v)?v:+v.toFixed(2);$("#m-err").hidden=true}
+  catch(e){$("#m-err").textContent=e.message;$("#m-err").hidden=false}b.disabled=false};
+$("#go").onclick=async()=>{const b=$("#go"),er=$("#m-err"),body={};er.hidden=true;
+  for(const k of [...FIELDS.map(f=>f[0]),"hour"])body[k]=parseFloat($("#f-"+k).value);
+  body.hour=Math.round(body.hour);body.day_of_week=parseInt($("#f-day").value);
+  if(Object.values(body).some(Number.isNaN)){er.textContent=t("badNum");er.hidden=false;return}
+  b.disabled=true;b.textContent=t("going");
+  try{S.pred=await api("/predict"+cq(),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});showPred()}
+  catch(e){er.textContent=e.message;er.hidden=false}
+  b.disabled=false;b.textContent=t("go")};
+
+/* modelo */
+function renderModel(){const box=$("#model"),m=S.model;if(!m)return;
+  if(m.err){box.innerHTML=errCard("modErr",m.err);return}
+  const cl=m.classes.map(c=>`<span class="chip" style="background:${COL[c]};margin:.2rem .2rem 0 0">${cat(c)[0]}</span>`).join("");
+  const f=[[t("mName"),m.model_name],[t("mVer"),"v"+m.version+" ("+m.alias+")"],[t("mTr"),when(m.trained_at)],[t("mHor"),m.horizon_hours+" "+t("hrs")],
+    [t("mRows"),m.n_rows.toLocaleString(loc())],[t("mFrom"),when(m.data_range.start)],[t("mTo"),when(m.data_range.end)]].map(x=>`<div><span class="muted">${x[0]}</span><b>${x[1]}</b></div>`).join("");
+  box.innerHTML=`<div class="card" style="--cat:#5b4bff"><h3>${t("perf")}</h3>
+    <div class="stats"><div><div class="big">${(m.metrics.accuracy*100).toFixed(1)}%</div><p class="muted">${t("acc")}</p></div>
+    <div><div class="big">${m.metrics.f1_macro.toFixed(3)}</div><p class="muted">${t("f1")}</p></div></div>
+    <p class="muted">${t("cls")}</p><div>${cl}</div></div>
+    <div class="card" style="--cat:#ff3d8b"><h3>${t("spec")}</h3><div class="facts">${f}</div></div>`}
+async function loadModel(){try{S.model=await api("/model-info"+cq())}catch(e){S.model={err:e.message}}renderModel()}
+
+/* ciudades */
+function renderCities(){const s=$("#city");
+  s.innerHTML=CITIES.map(c=>`<option value="${c.slug}">${c.name}${c.available?"":" · "+t("soon")}</option>`).join("");
+  s.value=CITY||(CITIES.find(c=>c.default)||{}).slug||""}
+$("#city").onchange=e=>{CITY=e.target.value;try{localStorage.setItem("aqiCity",CITY)}catch(x){}
+  S.live=S.model=S.pred=null;
+  $("#m-out").innerHTML='<div class="card" style="--cat:#12c2b0"><p class="muted" data-i="hint"></p></div>';
+  $("#live").innerHTML='<div class="card"><p class="load" data-i="loadLive"></p></div>';
+  $("#model").innerHTML='<div class="card"><p class="load" data-i="loadMod"></p></div>';
+  const w=$("#live-when");w.dataset.i="whenDef";apply();loadLive();if(cur().dataset.p==="mod")loadModel()};
+
+/* idioma */
+function apply(){
+  document.documentElement.lang=L;document.title=t("title");
+  document.querySelectorAll("[data-i]").forEach(e=>e.innerHTML=t(e.dataset.i).replace("{c}",cname()));
+  document.querySelectorAll("[data-l]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+  const d=$("#f-day"),v=d.value||String((now.getDay()+6)%7);
+  d.innerHTML=t("days").map((x,i)=>`<option value="${i}">${x}</option>`).join("");d.value=v;
+  renderCities();renderLive();renderModel();showPred();move(cur())}
+document.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem("aqiLang",L)}catch(e){}apply()});
+
+/* arranque */
+apply();
+api("/health").then(()=>{$("#health").className="pill ok";$("#health").lastChild.dataset.i="hOk";apply()})
+  .catch(()=>{$("#health").className="pill bad";$("#health").lastChild.dataset.i="hBad";apply()});
+(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>move(cur()));
+api("/cities").then(c=>{CITIES=c;if(!c.some(x=>x.slug===CITY))CITY=(c.find(x=>x.default)||c[0]).slug;apply();loadLive()})
+  .catch(()=>loadLive());
+</script>
+</body>
+</html>

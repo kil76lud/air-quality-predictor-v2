@@ -1,0 +1,12 @@
+# Blueprint de Render (infraestructura como código).
+# Render -> New -> Blueprint -> elegir este repositorio -> Apply.
+# El deploy NO es automático por commit: lo dispara .github/workflows/cd.yml (Deploy Hook)
+# solo cuando CI está en verde. Ver docs/DEPLOY.md.
+services:
+  - type: web
+    name: air-quality-predictor
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeployTrigger: "off"

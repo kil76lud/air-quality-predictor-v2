@@ -1,0 +1,62 @@
+name: CD
+
+# Se ejecuta cuando CI termina bien en main, o a mano / desde retrain.yml.
+# Despliega en Render: dispara el Deploy Hook (Render construye el Dockerfile desde GitHub) y
+# espera hasta que la versión NUEVA esté sirviendo (cabecera X-App-Commit = commit desplegado).
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cd
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    env:
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      RENDER_APP_URL: ${{ secrets.RENDER_APP_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || 'main' }}
+          fetch-depth: 1
+
+      - name: Verificar secrets
+        run: |
+          for v in RENDER_DEPLOY_HOOK_URL RENDER_APP_URL; do
+            [ -n "${!v}" ] || { echo "::error::Falta el secret $v"; exit 1; }
+          done
+
+      - name: Disparar el deploy en Render (Deploy Hook)
+        run: |
+          # La URL del hook es secreta: nunca se imprime, solo el código HTTP.
+          code="$(curl -s -o /dev/null -w '%{http_code}' "$RENDER_DEPLOY_HOOK_URL")"
+          echo "Deploy hook -> HTTP $code"
+          case "$code" in
+            2*) ;;
+            *) echo "::error::Render rechazó el Deploy Hook (HTTP $code). Revisa el secret RENDER_DEPLOY_HOOK_URL."; exit 1 ;;
+          esac
+
+      - name: Esperar a que la versión nueva esté en línea
+        run: |
+          URL="${RENDER_APP_URL%/}"
+          EXPECTED="$(git rev-parse HEAD)"
+          echo "Esperando el commit ${EXPECTED} en ${URL} (el build en Render tarda varios minutos)"
+          for i in $(seq 1 90); do
+            RESP="$(curl -si -m 30 "$URL/health" | tr -d '\r' || true)"
+            if echo "$RESP" | grep -q '"status":"ok"' && echo "$RESP" | grep -qi "^x-app-commit: ${EXPECTED}$"; then
+              echo "✅ Render sirve el commit ${EXPECTED}"
+              curl -s "$URL/cities"; echo; curl -s "$URL/model-info"; echo
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::La versión nueva no apareció en 15 minutos. Revisa los logs del servicio en Render."
+          exit 1

@@ -1,0 +1,24 @@
+# Uso local:
+#   docker compose up --build              -> app en http://localhost:7860
+#   docker compose --profile mlops up      -> además MLflow UI en http://localhost:5000
+services:
+  api:
+    build: .
+    ports: ["7860:7860"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  mlflow-ui:
+    profiles: ["mlops"]          # solo se levanta bajo demanda (demo)
+    image: python:3.11-slim
+    working_dir: /work
+    volumes: ["./mlflow.db:/work/mlflow.db", "./mlartifacts:/work/mlartifacts"]
+    ports: ["5000:5000"]
+    command: >
+      sh -c "pip install -q mlflow==2.20.3 SQLAlchemy==2.0.36 &&
+             mlflow server --backend-store-uri sqlite:////work/mlflow.db
+             --host 0.0.0.0 --port 5000"
