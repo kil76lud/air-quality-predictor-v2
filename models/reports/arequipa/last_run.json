@@ -1,52 +1,52 @@
 {
   "city": "Arequipa",
   "promoted": true,
-  "reason": "No incumbent champion: first model is promoted.",
-  "version": "1",
-  "challenger_f1_macro": 0.8248368002062584,
-  "champion_f1_macro": null,
-  "baseline_f1_macro": 0.7581738755194571,
+  "reason": "Promoted: challenger F1 macro 0.8334 vs champion 0.8250 (delta +0.0085 >= required +0.0050).",
+  "version": "2",
+  "challenger_f1_macro": 0.8334340109592858,
+  "champion_f1_macro": 0.8249782925107602,
+  "baseline_f1_macro": 0.7953157781742535,
   "min_delta": 0.005,
   "n_trials": 30,
   "seed": 42,
   "data_source": "open-meteo",
-  "mlflow_run_id": "3332d4a6103d4255ba66a848b465be92",
+  "mlflow_run_id": "25cb340e24e247f59120f37eb5c37427",
   "baseline": {
-    "accuracy": 0.9627933600457927,
-    "f1_macro": 0.7581738755194571,
+    "accuracy": 0.9672501411631846,
+    "f1_macro": 0.7953157781742535,
     "f1_per_class": {
-      "Good": 0.6666666666666666,
-      "Moderate": 0.9804039794995478,
-      "Unhealthy for Sensitive Groups": 0.6274509803921569,
+      "Good": 0.72,
+      "Moderate": 0.9827175208581644,
+      "Unhealthy for Sensitive Groups": 0.6832298136645962,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
       "Good": 16,
-      "Moderate": 1630,
+      "Moderate": 1654,
       "Unhealthy for Sensitive Groups": 101,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        8,
-        8,
+        9,
+        7,
         0,
         0,
         0
       ],
       [
         0,
-        1626,
-        4,
+        1649,
+        5,
         0,
         0
       ],
       [
         0,
-        53,
-        48,
+        46,
+        55,
         0,
         0
       ],
@@ -67,34 +67,34 @@
     ]
   },
   "challenger": {
-    "accuracy": 0.9467658843732112,
-    "f1_macro": 0.8248368002062584,
+    "accuracy": 0.9457933370976849,
+    "f1_macro": 0.8334340109592858,
     "f1_per_class": {
-      "Good": 0.8666666666666667,
-      "Moderate": 0.9711090400745573,
-      "Unhealthy for Sensitive Groups": 0.636734693877551,
+      "Good": 0.9032258064516129,
+      "Moderate": 0.970570202329859,
+      "Unhealthy for Sensitive Groups": 0.6265060240963856,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
       "Good": 16,
-      "Moderate": 1630,
+      "Moderate": 1654,
       "Unhealthy for Sensitive Groups": 101,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        13,
-        3,
+        14,
+        2,
         0,
         0,
         0
       ],
       [
         1,
-        1563,
-        66,
+        1583,
+        70,
         0,
         0
       ],
@@ -121,5 +121,59 @@
       ]
     ]
   },
-  "champion": null
+  "champion": {
+    "accuracy": 0.9474872953133823,
+    "f1_macro": 0.8249782925107602,
+    "f1_per_class": {
+      "Good": 0.8666666666666667,
+      "Moderate": 0.9715335169880625,
+      "Unhealthy for Sensitive Groups": 0.636734693877551,
+      "Unhealthy": 0.0,
+      "Very Unhealthy": 0.0
+    },
+    "support": {
+      "Good": 16,
+      "Moderate": 1654,
+      "Unhealthy for Sensitive Groups": 101,
+      "Unhealthy": 0,
+      "Very Unhealthy": 0
+    },
+    "confusion_matrix": [
+      [
+        13,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1587,
+        66,
+        0,
+        0
+      ],
+      [
+        0,
+        23,
+        78,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  }
 }

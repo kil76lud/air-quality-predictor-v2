@@ -1,44 +1,44 @@
 {
   "city": "Pucallpa",
-  "promoted": true,
-  "reason": "No incumbent champion: first model is promoted.",
-  "version": "1",
-  "challenger_f1_macro": 0.4683265144160387,
-  "champion_f1_macro": null,
-  "baseline_f1_macro": 0.4584806345023975,
+  "promoted": false,
+  "reason": "Rejected: challenger F1 macro 0.4709 vs champion 0.4724 (delta -0.0015 < required +0.0050).",
+  "version": "2",
+  "challenger_f1_macro": 0.4709473885984844,
+  "champion_f1_macro": 0.4724214092255131,
+  "baseline_f1_macro": 0.464019886977004,
   "min_delta": 0.005,
   "n_trials": 30,
   "seed": 42,
   "data_source": "open-meteo",
-  "mlflow_run_id": "4e04d565c2414151b4e8e88266ec18fb",
+  "mlflow_run_id": "666bb0ea8b2b4c828221bbca1caf3ed8",
   "baseline": {
-    "accuracy": 0.907842014882656,
-    "f1_macro": 0.4584806345023975,
+    "accuracy": 0.9153020892151327,
+    "f1_macro": 0.464019886977004,
     "f1_per_class": {
-      "Good": 0.9040139616055847,
-      "Moderate": 0.9299085764040053,
+      "Good": 0.9253956292388847,
+      "Moderate": 0.9306839186691312,
       "Unhealthy for Sensitive Groups": 0.0,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 573,
-      "Moderate": 1123,
+      "Good": 663,
+      "Moderate": 1057,
       "Unhealthy for Sensitive Groups": 23,
       "Unhealthy": 28,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        518,
-        55,
+        614,
+        49,
         0,
         0,
         0
       ],
       [
-        55,
-        1068,
+        50,
+        1007,
         0,
         0,
         0
@@ -67,33 +67,33 @@
     ]
   },
   "challenger": {
-    "accuracy": 0.9255867200915856,
-    "f1_macro": 0.4683265144160387,
+    "accuracy": 0.9282891022021457,
+    "f1_macro": 0.4709473885984844,
     "f1_per_class": {
-      "Good": 0.9291479820627803,
-      "Moderate": 0.9441580756013745,
+      "Good": 0.9420731707317073,
+      "Moderate": 0.9417163836622304,
       "Unhealthy for Sensitive Groups": 0.0,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 573,
-      "Moderate": 1123,
+      "Good": 663,
+      "Moderate": 1057,
       "Unhealthy for Sensitive Groups": 23,
       "Unhealthy": 28,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        518,
-        55,
+        618,
+        45,
         0,
         0,
         0
       ],
       [
-        24,
-        1099,
+        31,
+        1026,
         0,
         0,
         0
@@ -121,5 +121,59 @@
       ]
     ]
   },
-  "champion": null
+  "champion": {
+    "accuracy": 0.9311123658949746,
+    "f1_macro": 0.4724214092255131,
+    "f1_per_class": {
+      "Good": 0.945342571208622,
+      "Moderate": 0.9443430656934306,
+      "Unhealthy for Sensitive Groups": 0.0,
+      "Unhealthy": 0.0,
+      "Very Unhealthy": 0.0
+    },
+    "support": {
+      "Good": 663,
+      "Moderate": 1057,
+      "Unhealthy for Sensitive Groups": 23,
+      "Unhealthy": 28,
+      "Very Unhealthy": 0
+    },
+    "confusion_matrix": [
+      [
+        614,
+        49,
+        0,
+        0,
+        0
+      ],
+      [
+        22,
+        1035,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        23,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        28,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  }
 }

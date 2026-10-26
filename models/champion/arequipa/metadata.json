@@ -1,21 +1,21 @@
 {
   "model_name": "aqi-xgboost-champion",
-  "version": "1",
+  "version": "2",
   "alias": "champion",
-  "trained_at": "2026-10-21T11:22:14.450923+00:00",
+  "trained_at": "2026-10-26T12:33:51.377827+00:00",
   "metrics": {
-    "accuracy": 0.9467658843732112,
-    "f1_macro": 0.8248368002062584,
+    "accuracy": 0.9457933370976849,
+    "f1_macro": 0.8334340109592858,
     "f1_per_class": {
-      "Good": 0.8666666666666667,
-      "Moderate": 0.9711090400745573,
-      "Unhealthy for Sensitive Groups": 0.636734693877551,
+      "Good": 0.9032258064516129,
+      "Moderate": 0.970570202329859,
+      "Unhealthy for Sensitive Groups": 0.6265060240963856,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
       "Good": 16,
-      "Moderate": 1630,
+      "Moderate": 1654,
       "Unhealthy for Sensitive Groups": 101,
       "Unhealthy": 0,
       "Very Unhealthy": 0
@@ -31,13 +31,13 @@
   ],
   "data_range": {
     "start": "2025-10-21T00:00:00-05:00",
-    "end": "2026-10-21T06:00:00-05:00"
+    "end": "2026-10-26T07:00:00-05:00"
   },
   "test_range": {
-    "start": "2026-08-09T06:00:00-05:00",
-    "end": "2026-10-21T00:00:00-05:00"
+    "start": "2026-08-13T07:00:00-05:00",
+    "end": "2026-10-26T01:00:00-05:00"
   },
-  "n_rows": 8767,
+  "n_rows": 8888,
   "feature_names": [
     "pm2_5",
     "pm10",
@@ -96,15 +96,15 @@
   "params": {
     "n_estimators": 400,
     "max_depth": 4,
-    "learning_rate": 0.17380883567806915,
+    "learning_rate": 0.1738088356780692,
     "subsample": 0.6026268487517209,
-    "colsample_bytree": 0.9851573881769597,
+    "colsample_bytree": 0.9851573881769599,
     "min_child_weight": 8,
-    "reg_lambda": 9.7038546568188,
-    "gamma": 1.4741882346557034
+    "reg_lambda": 9.703854656818796,
+    "gamma": 1.4741882346557031
   },
   "seed": 42,
-  "mlflow_run_id": "3332d4a6103d4255ba66a848b465be92",
+  "mlflow_run_id": "25cb340e24e247f59120f37eb5c37427",
   "data_source": "open-meteo",
   "city": "Arequipa"
 }

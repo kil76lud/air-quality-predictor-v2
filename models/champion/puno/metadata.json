@@ -1,20 +1,20 @@
 {
   "model_name": "aqi-xgboost-champion",
-  "version": "1",
+  "version": "2",
   "alias": "champion",
-  "trained_at": "2026-10-21T11:20:11.114709+00:00",
+  "trained_at": "2026-10-26T12:32:36.172336+00:00",
   "metrics": {
-    "accuracy": 0.9370349170005724,
-    "f1_macro": 0.639753299340132,
+    "accuracy": 0.9429700734048561,
+    "f1_macro": 0.6789852926660744,
     "f1_per_class": {
-      "Good": 0.967006598680264,
-      "Moderate": 0.3125,
+      "Good": 0.9700917974533609,
+      "Moderate": 0.3878787878787879,
       "Unhealthy for Sensitive Groups": 0.0,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 1627,
+      "Good": 1651,
       "Moderate": 120,
       "Unhealthy for Sensitive Groups": 0,
       "Unhealthy": 0,
@@ -31,13 +31,13 @@
   ],
   "data_range": {
     "start": "2025-10-21T00:00:00-05:00",
-    "end": "2026-10-21T06:00:00-05:00"
+    "end": "2026-10-26T07:00:00-05:00"
   },
   "test_range": {
-    "start": "2026-08-09T06:00:00-05:00",
-    "end": "2026-10-21T00:00:00-05:00"
+    "start": "2026-08-13T07:00:00-05:00",
+    "end": "2026-10-26T01:00:00-05:00"
   },
-  "n_rows": 8767,
+  "n_rows": 8888,
   "feature_names": [
     "pm2_5",
     "pm10",
@@ -94,17 +94,17 @@
     "Unhealthy for Sensitive Groups"
   ],
   "params": {
-    "n_estimators": 300,
-    "max_depth": 7,
-    "learning_rate": 0.021146536167031597,
-    "subsample": 0.9879639408647978,
-    "colsample_bytree": 0.9162213204002109,
-    "min_child_weight": 3,
-    "reg_lambda": 0.035113563139704075,
-    "gamma": 0.36680901970686763
+    "n_estimators": 200,
+    "max_depth": 9,
+    "learning_rate": 0.14518497439122724,
+    "subsample": 0.8394633936788146,
+    "colsample_bytree": 0.5780093202212182,
+    "min_child_weight": 2,
+    "reg_lambda": 0.014936568554617643,
+    "gamma": 1.7323522915498704
   },
   "seed": 42,
-  "mlflow_run_id": "a922845ea1834adb81f8f4b9e86faf3c",
+  "mlflow_run_id": "f47de6fc429e4a81a43c55c2f17e66cd",
   "data_source": "open-meteo",
   "city": "Puno"
 }
