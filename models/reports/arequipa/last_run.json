@@ -1,52 +1,52 @@
 {
   "city": "Arequipa",
   "promoted": true,
-  "reason": "Promoted: challenger F1 macro 0.8334 vs champion 0.8250 (delta +0.0085 >= required +0.0050).",
-  "version": "2",
-  "challenger_f1_macro": 0.8334340109592858,
-  "champion_f1_macro": 0.8249782925107602,
-  "baseline_f1_macro": 0.7953157781742535,
+  "reason": "Promoted: challenger F1 macro 0.8298 vs champion 0.8125 (delta +0.0173 >= required +0.0050).",
+  "version": "3",
+  "challenger_f1_macro": 0.8298157311149256,
+  "champion_f1_macro": 0.8125370919881305,
+  "baseline_f1_macro": 0.8099305200561353,
   "min_delta": 0.005,
   "n_trials": 30,
   "seed": 42,
   "data_source": "open-meteo",
-  "mlflow_run_id": "25cb340e24e247f59120f37eb5c37427",
+  "mlflow_run_id": "e7e5a0d814ff43468ac1c80f9bc1e5aa",
   "baseline": {
-    "accuracy": 0.9672501411631846,
-    "f1_macro": 0.7953157781742535,
+    "accuracy": 0.9695290858725761,
+    "f1_macro": 0.8099305200561353,
     "f1_per_class": {
-      "Good": 0.72,
-      "Moderate": 0.9827175208581644,
-      "Unhealthy for Sensitive Groups": 0.6832298136645962,
+      "Good": 0.0,
+      "Moderate": 0.9840994507082972,
+      "Unhealthy for Sensitive Groups": 0.6357615894039735,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 16,
-      "Moderate": 1654,
-      "Unhealthy for Sensitive Groups": 101,
+      "Good": 0,
+      "Moderate": 1706,
+      "Unhealthy for Sensitive Groups": 99,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        9,
-        7,
+        0,
+        0,
         0,
         0,
         0
       ],
       [
         0,
-        1649,
-        5,
+        1702,
+        4,
         0,
         0
       ],
       [
         0,
-        46,
-        55,
+        51,
+        48,
         0,
         0
       ],
@@ -67,40 +67,40 @@
     ]
   },
   "challenger": {
-    "accuracy": 0.9457933370976849,
-    "f1_macro": 0.8334340109592858,
+    "accuracy": 0.9595567867036011,
+    "f1_macro": 0.8298157311149256,
     "f1_per_class": {
-      "Good": 0.9032258064516129,
-      "Moderate": 0.970570202329859,
-      "Unhealthy for Sensitive Groups": 0.6265060240963856,
+      "Good": 0.0,
+      "Moderate": 0.9784087548062703,
+      "Unhealthy for Sensitive Groups": 0.6812227074235808,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 16,
-      "Moderate": 1654,
-      "Unhealthy for Sensitive Groups": 101,
+      "Good": 0,
+      "Moderate": 1706,
+      "Unhealthy for Sensitive Groups": 99,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        14,
-        2,
+        0,
+        0,
         0,
         0,
         0
       ],
       [
-        1,
-        1583,
-        70,
+        0,
+        1654,
+        52,
         0,
         0
       ],
       [
         0,
-        23,
+        21,
         78,
         0,
         0
@@ -122,40 +122,40 @@
     ]
   },
   "champion": {
-    "accuracy": 0.9474872953133823,
-    "f1_macro": 0.8249782925107602,
+    "accuracy": 0.9534626038781163,
+    "f1_macro": 0.8125370919881305,
     "f1_per_class": {
-      "Good": 0.8666666666666667,
-      "Moderate": 0.9715335169880625,
-      "Unhealthy for Sensitive Groups": 0.636734693877551,
+      "Good": 0.0,
+      "Moderate": 0.9750741839762611,
+      "Unhealthy for Sensitive Groups": 0.65,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 16,
-      "Moderate": 1654,
-      "Unhealthy for Sensitive Groups": 101,
+      "Good": 0,
+      "Moderate": 1706,
+      "Unhealthy for Sensitive Groups": 99,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        13,
-        3,
+        0,
+        0,
         0,
         0,
         0
       ],
       [
-        1,
-        1587,
-        66,
+        0,
+        1643,
+        63,
         0,
         0
       ],
       [
         0,
-        23,
+        21,
         78,
         0,
         0

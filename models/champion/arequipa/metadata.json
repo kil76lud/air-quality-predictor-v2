@@ -1,22 +1,22 @@
 {
   "model_name": "aqi-xgboost-champion",
-  "version": "2",
+  "version": "3",
   "alias": "champion",
-  "trained_at": "2026-10-26T12:33:51.377827+00:00",
+  "trained_at": "2026-11-02T15:08:53.940047+00:00",
   "metrics": {
-    "accuracy": 0.9457933370976849,
-    "f1_macro": 0.8334340109592858,
+    "accuracy": 0.9595567867036011,
+    "f1_macro": 0.8298157311149256,
     "f1_per_class": {
-      "Good": 0.9032258064516129,
-      "Moderate": 0.970570202329859,
-      "Unhealthy for Sensitive Groups": 0.6265060240963856,
+      "Good": 0.0,
+      "Moderate": 0.9784087548062703,
+      "Unhealthy for Sensitive Groups": 0.6812227074235808,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 16,
-      "Moderate": 1654,
-      "Unhealthy for Sensitive Groups": 101,
+      "Good": 0,
+      "Moderate": 1706,
+      "Unhealthy for Sensitive Groups": 99,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     }
@@ -31,13 +31,13 @@
   ],
   "data_range": {
     "start": "2025-10-21T00:00:00-05:00",
-    "end": "2026-10-26T07:00:00-05:00"
+    "end": "2026-11-02T10:00:00-05:00"
   },
   "test_range": {
-    "start": "2026-08-13T07:00:00-05:00",
-    "end": "2026-10-26T01:00:00-05:00"
+    "start": "2026-08-19T00:00:00-05:00",
+    "end": "2026-11-02T04:00:00-05:00"
   },
-  "n_rows": 8888,
+  "n_rows": 9059,
   "feature_names": [
     "pm2_5",
     "pm10",
@@ -94,17 +94,17 @@
     "Unhealthy for Sensitive Groups"
   ],
   "params": {
-    "n_estimators": 400,
-    "max_depth": 4,
-    "learning_rate": 0.1738088356780692,
-    "subsample": 0.6026268487517209,
-    "colsample_bytree": 0.9851573881769599,
-    "min_child_weight": 8,
-    "reg_lambda": 9.703854656818796,
-    "gamma": 1.4741882346557031
+    "n_estimators": 350,
+    "max_depth": 3,
+    "learning_rate": 0.06403808659040842,
+    "subsample": 0.6669833808117693,
+    "colsample_bytree": 0.6061882665609473,
+    "min_child_weight": 5,
+    "reg_lambda": 5.203385695131581,
+    "gamma": 1.141145264427831
   },
   "seed": 42,
-  "mlflow_run_id": "25cb340e24e247f59120f37eb5c37427",
+  "mlflow_run_id": "e7e5a0d814ff43468ac1c80f9bc1e5aa",
   "data_source": "open-meteo",
   "city": "Arequipa"
 }
