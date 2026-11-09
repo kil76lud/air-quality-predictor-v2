@@ -1,43 +1,43 @@
 {
   "city": "Puno",
   "promoted": false,
-  "reason": "Rejected: challenger F1 macro 0.6780 vs champion 0.6793 (delta -0.0013 < required +0.0050).",
-  "version": "3",
-  "challenger_f1_macro": 0.6779627219680114,
-  "champion_f1_macro": 0.6792804679597132,
-  "baseline_f1_macro": 0.4828080229226361,
+  "reason": "Rejected: challenger F1 macro 0.6901 vs champion 0.6864 (delta +0.0037 < required +0.0050).",
+  "version": "4",
+  "challenger_f1_macro": 0.6900518265705979,
+  "champion_f1_macro": 0.6863558840250142,
+  "baseline_f1_macro": 0.4838619141173169,
   "min_delta": 0.005,
   "n_trials": 30,
   "seed": 42,
   "data_source": "open-meteo",
-  "mlflow_run_id": "5953b756ad8d46ceb1b16ecb915cff49",
+  "mlflow_run_id": "0dfeaf87fae74eb38de6e673c61f3f26",
   "baseline": {
-    "accuracy": 0.9335180055401662,
-    "f1_macro": 0.4828080229226361,
+    "accuracy": 0.9374660141381186,
+    "f1_macro": 0.4838619141173169,
     "f1_per_class": {
-      "Good": 0.9656160458452722,
+      "Good": 0.9677238282346338,
       "Moderate": 0.0,
       "Unhealthy for Sensitive Groups": 0.0,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 1685,
-      "Moderate": 120,
+      "Good": 1724,
+      "Moderate": 115,
       "Unhealthy for Sensitive Groups": 0,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        1685,
+        1724,
         0,
         0,
         0,
         0
       ],
       [
-        120,
+        115,
         0,
         0,
         0,
@@ -67,33 +67,33 @@
     ]
   },
   "challenger": {
-    "accuracy": 0.9434903047091413,
-    "f1_macro": 0.6779627219680114,
+    "accuracy": 0.9477977161500816,
+    "f1_macro": 0.6900518265705979,
     "f1_per_class": {
-      "Good": 0.9703832752613241,
-      "Moderate": 0.3855421686746988,
+      "Good": 0.9726962457337884,
+      "Moderate": 0.4074074074074074,
       "Unhealthy for Sensitive Groups": 0.0,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 1685,
-      "Moderate": 120,
+      "Good": 1724,
+      "Moderate": 115,
       "Unhealthy for Sensitive Groups": 0,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        1671,
+        1710,
         14,
         0,
         0,
         0
       ],
       [
-        88,
-        32,
+        82,
+        33,
         0,
         0,
         0
@@ -122,32 +122,32 @@
     ]
   },
   "champion": {
-    "accuracy": 0.9440443213296399,
-    "f1_macro": 0.6792804679597132,
+    "accuracy": 0.9477977161500816,
+    "f1_macro": 0.6863558840250142,
     "f1_per_class": {
-      "Good": 0.9706821480406386,
-      "Moderate": 0.3878787878787879,
+      "Good": 0.9727117680500285,
+      "Moderate": 0.4,
       "Unhealthy for Sensitive Groups": 0.0,
       "Unhealthy": 0.0,
       "Very Unhealthy": 0.0
     },
     "support": {
-      "Good": 1685,
-      "Moderate": 120,
+      "Good": 1724,
+      "Moderate": 115,
       "Unhealthy for Sensitive Groups": 0,
       "Unhealthy": 0,
       "Very Unhealthy": 0
     },
     "confusion_matrix": [
       [
-        1672,
+        1711,
         13,
         0,
         0,
         0
       ],
       [
-        88,
+        83,
         32,
         0,
         0,
